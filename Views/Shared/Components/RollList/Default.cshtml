@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Roll>
+
+@foreach (var roll in Model)
+{
+  <section class="section-card section--center">
+    <div class="mdl-card mdl-cell--8-col mdl-shadow--2dp">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">@roll.Name</h2>
+      </div>
+      <div class="mdl-card__supporting-text">
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--1-col">
+            <span>描述: </span>
+          </div>
+          <div class="mdl-cell mdl-cell--11-col">
+            @roll.Description
+          </div>
+        </div>
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--3-col">
+            <span>RollId: </span>
+            @roll.RollId
+          </div>
+          <div class="mdl-cell mdl-cell--3-col">
+            <span>创建者: </span>
+            @roll.Creator
+          </div>
+          <div class="mdl-cell mdl-cell--3-col">
+            <span>抽几个人: </span>
+            @roll.WinnerNumber
+          </div>
+          <div class="mdl-cell mdl-cell--3-col">
+            <span>参加人数: </span>
+            @roll.Participants.Count
+          </div>
+        </div>
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--6-col">
+            <span>开始时间: </span>
+            @roll.CreateTime
+          </div>
+          <div class="mdl-cell mdl-cell--6-col">
+            <span>结束时间: </span>
+            @roll.EndTime
+          </div>
+        </div>
+        @if (!roll.IsOpen)
+        {
+          <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--12-col">
+              <span>欧皇: </span>
+              @foreach (var winner in roll.Winners)
+              {
+                @winner.Username
+              }
+            </div>
+          </div>
+        }
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+           asp-controller="Roll" asp-action="Detail" asp-route-id="@roll.RollId">
+          进♂入更衣室
+        </a>
+      </div>
+    </div>
+  </section>
+}

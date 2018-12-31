@@ -1,0 +1,20 @@
+﻿
+@section Tabbar {
+  <a href="#rollopen" class="mdl-layout__tab is-active">正在开放的 Roll</a>
+  <a href="#rollclose" class="mdl-layout__tab">已经关闭的 Roll</a>
+  <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent"
+          onclick="location.href='@Url.Action("Create", "Roll")'">
+    <i class="material-icons" role="presentation">add</i>
+    <span class="visuallyhidden">Add</span>
+  </button>
+}
+
+@* Roll Open *@
+<div class="mdl-layout__tab-panel is-active" id="rollopen">
+  @await Component.InvokeAsync(nameof(RollList), true)
+</div>
+
+@* Roll Close *@
+<div class="mdl-layout__tab-panel" id="rollclose">
+  @await Component.InvokeAsync(nameof(RollList), false)
+</div>

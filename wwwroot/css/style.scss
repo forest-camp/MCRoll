@@ -1,0 +1,119 @@
+﻿html, body {
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.mdl-body {
+  .mdl-layout__header-row {
+    padding-left: 40px;
+
+    .mdl-layout-title {
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 40px;
+      margin-top: 24px;
+      margin-bottom: 24px;
+      color: #fff;
+
+      &:link,
+      &:active,
+      &:hover,
+      &:visited {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .mdl-layout__tab-bar-button {
+    display: none;
+  }
+
+  .mdl-layout__tab-bar,
+  .mdl-layout__tab-bar-container {
+    overflow: visible;
+  }
+
+  .mdl-layout__tab-bar-container {
+    height: 64px;
+  }
+
+  .mdl-layout__tab-bar {
+    padding: 0;
+    padding-left: 16px;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+
+    .mdl-layout__tab {
+      height: 64px;
+      line-height: 64px;
+    }
+
+    .mdl-layout__tab.is-active::after {
+      background-color: #fff;
+      height: 4px;
+    }
+  }
+
+  .mdl-button--fab {
+    position: absolute;
+    right: 40px;
+    top: 36px;
+    z-index: 999;
+  }
+
+  .page-content {
+    padding: 50px 50px 0 50px;
+  }
+
+  .mdl-layout-footer {
+    text-align: center;
+  }
+}
+
+.section-card {
+  padding-bottom: 48px;
+
+  .mdl-card {
+    margin: auto;
+
+    .mdl-card__title {
+      color: #fff;
+      background: cadetblue;
+    }
+
+    .mdl-card__title-detail {
+      height: 112px;
+    }
+
+    .mdl-card__title-text-detail {
+      font-size: 32px;
+    }
+
+    .mdl-card__supporting-text {
+      color: inherit;
+
+      span {
+        color: #99a9bf;
+      }
+    }
+  }
+}
+
+.mdl-list-height--auto{
+  height: auto !important;
+}
+
+.mdl-textfield{
+  width: 100%;
+}
+
+.c-datepicker.c-datepicker--open {
+  top: 55%;
+  z-index: 999;
+}
+
+.c-datepicker__header{
+  line-height:normal;
+}

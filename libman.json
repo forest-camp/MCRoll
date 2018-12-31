@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "material-design-lite@1.3.0",
+      "files": [
+        "material-grid.css",
+        "material-grid.min.css",
+        "material.css",
+        "material.min.css",
+        "material.js",
+        "material.min.js"
+      ],
+      "destination": "wwwroot/lib/material-design-lite"
+    },
+    {
+      "destination": "wwwroot/lib/polyfill",
+      "library": "babel-polyfill@7.0.0"
+    },
+    {
+      "destination": "wwwroot/lib/moment.js",
+      "files": [ "moment.js", "moment.min.js", "locale/zh-cn.js" ],
+      "library": "moment.js@2.22.2"
+    },
+    {
+      "destination": "wwwroot/lib/rome",
+      "files": [ "rome.standalone.js", "rome.standalone.min.js" ],
+      "library": "rome@2.1.22"
+    },
+    {
+      "destination": "wwwroot/lib/material-datetime-picker",
+      "files": [
+        "material-datetime-picker.min.css",
+        "material-datetime-picker.min.css.map",
+        "material-datetime-picker.min.js",
+        "material-datetime-picker.min.js.map"
+      ],
+      "library": "material-datetime-picker@2.4.0"
+    }
+  ]
+}

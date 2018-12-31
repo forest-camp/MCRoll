@@ -1,0 +1,172 @@
+﻿@model Roll
+
+
+@section Tabbar {
+  <a class="mdl-layout__tab is-active">@Model.Name</a>
+  <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent"
+          onclick="location.href='@Url.Action("Index", "Roll")'">
+    <i class="material-icons" role="presentation">arrow_back</i>
+    <span class="visuallyhidden">返回</span>
+  </button>
+}
+
+@* Roll Detail *@
+<section class="section-card section--center">
+  <div class="mdl-card mdl-cell--8-col mdl-shadow--2dp">
+    <div class="mdl-card__title mdl-card__title-detail">
+      <h2 class="mdl-card__title-text mdl-card__title-text-detail">@Model.Name</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--1-col">
+          <span>描述: </span>
+        </div>
+        <div class="mdl-cell mdl-cell--11-col">
+          @Model.Description
+        </div>
+      </div>
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--3-col">
+          <span>RollId: </span>
+          @Model.RollId
+        </div>
+        <div class="mdl-cell mdl-cell--3-col">
+          <span>创建者: </span>
+          @Model.Creator
+        </div>
+        <div class="mdl-cell mdl-cell--3-col">
+          <span>抽几个人: </span>
+          @Model.WinnerNumber
+        </div>
+        <div class="mdl-cell mdl-cell--3-col">
+          <span>参加人数: </span>
+          @Model.Participants.Count
+        </div>
+      </div>
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--6-col">
+          <span>开始时间: </span>
+          @Model.CreateTime
+        </div>
+        <div class="mdl-cell mdl-cell--6-col">
+          <span>结束时间: </span>
+          @Model.EndTime
+        </div>
+      </div>
+    </div>
+    @if (Model.IsOpen)
+    {
+      <form class="myform" asp-controller="Roll" asp-action="Close" method="post">
+        @{
+          var closeDisabled = Model.EndTime > DateTime.Now ? "disabled" : "";
+        }
+        <input type="hidden" name="id" value="@Model.RollId" />
+        <div class="mdl-card__actions mdl-card--border">
+          <button type="submit" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" @closeDisabled>
+            结束Roll
+          </button>
+        </div>
+      </form>
+    }
+  </div>
+</section>
+
+@* Roll Detail *@
+<section class="section-card section--center">
+  <div class="mdl-card mdl-cell--8-col mdl-shadow--2dp">
+    <div class="mdl-card__title mdl-card__title-detail">
+      <h2 class="mdl-card__title-text mdl-card__title-text-detail">参与者</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <ul class="mdl-list">
+        @if (Model.Participants.Count == 0)
+        {
+          <li class="mdl-list__item mdl-list-height--auto">
+            <span class="mdl-list__item-primary-content mdl-list-height--auto">暂无</span>
+          </li>
+        }
+        else
+        {
+          @foreach (var participant in Model.Participants)
+          {
+            <li class="mdl-list__item mdl-list__item--three-line mdl-list-height--auto">
+              <span class="mdl-list__item-primary-content mdl-list-height--auto">
+                <a>@participant.Username</a>
+                <span class="mdl-list__item-text-body mdl-list-height--auto">
+                  @participant.Comment
+                </span>
+              </span>
+            </li>
+          }
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+@* Join in *@
+@if (Model.IsOpen)
+{
+  <section class="section-card section--center">
+    <div class="mdl-card mdl-cell--8-col mdl-shadow--2dp">
+      <div class="mdl-card__title mdl-card__title-detail">
+        <h2 class="mdl-card__title-text mdl-card__title-text-detail">加入?</h2>
+      </div>
+      <form class="myform" asp-controller="Roll" asp-action="Join" method="post">
+        <div class="mdl-card__supporting-text">
+          <input type="hidden" name="rollId" value="@Model.RollId" />
+          <div class="mdl-grid">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="text" name="username" required>
+              <label class="mdl-textfield__label" for="username">用户名:</label>
+            </div>
+          </div>
+          <div class="mdl-grid">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="email" name="email" required>
+              <label class="mdl-textfield__label" for="email">邮箱:</label>
+            </div>
+          </div>
+          <div class="mdl-grid">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <textarea class="mdl-textfield__input" type="text" name="comment" required></textarea>
+              <label class="mdl-textfield__label" for="comment">评论:</label>
+            </div>
+          </div>
+        </div>
+        @{
+          var joinDisabled = Model.EndTime < DateTime.Now ? "disabled" : "";
+        }
+        <div class="mdl-card__actions mdl-card--border">
+          <button type="submit" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" @joinDisabled>
+            提♂交
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+}
+
+@* Winner *@
+@if (!Model.IsOpen)
+{
+  <section class="section-card section--center">
+    <div class="mdl-card mdl-cell--8-col mdl-shadow--2dp">
+      <div class="mdl-card__title mdl-card__title-detail">
+        <h2 class="mdl-card__title-text mdl-card__title-text-detail">欧皇</h2>
+      </div>
+      <div class="mdl-card__supporting-text">
+        <div style="text-align:center;">
+          @foreach (var winner in Model.Winners)
+          {
+            <a>@winner.Username</a>
+            if (winner != Model.Winners.Last())
+            {
+              <span>,</span>
+            }
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+}

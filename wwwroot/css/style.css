@@ -1,0 +1,80 @@
+﻿html, body {
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+  margin: 0;
+  padding: 0; }
+
+.mdl-body .mdl-layout__header-row {
+  padding-left: 40px; }
+  .mdl-body .mdl-layout__header-row .mdl-layout-title {
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 40px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    color: #fff; }
+    .mdl-body .mdl-layout__header-row .mdl-layout-title:link, .mdl-body .mdl-layout__header-row .mdl-layout-title:active, .mdl-body .mdl-layout__header-row .mdl-layout-title:hover, .mdl-body .mdl-layout__header-row .mdl-layout-title:visited {
+      text-decoration: none; }
+
+.mdl-body .mdl-layout__tab-bar-button {
+  display: none; }
+
+.mdl-body .mdl-layout__tab-bar,
+.mdl-body .mdl-layout__tab-bar-container {
+  overflow: visible; }
+
+.mdl-body .mdl-layout__tab-bar-container {
+  height: 64px; }
+
+.mdl-body .mdl-layout__tab-bar {
+  padding: 0;
+  padding-left: 16px;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%; }
+  .mdl-body .mdl-layout__tab-bar .mdl-layout__tab {
+    height: 64px;
+    line-height: 64px; }
+  .mdl-body .mdl-layout__tab-bar .mdl-layout__tab.is-active::after {
+    background-color: #fff;
+    height: 4px; }
+
+.mdl-body .mdl-button--fab {
+  position: absolute;
+  right: 40px;
+  top: 36px;
+  z-index: 999; }
+
+.mdl-body .page-content {
+  padding: 50px 50px 0 50px; }
+
+.mdl-body .mdl-layout-footer {
+  text-align: center; }
+
+.section-card {
+  padding-bottom: 48px; }
+  .section-card .mdl-card {
+    margin: auto; }
+    .section-card .mdl-card .mdl-card__title {
+      color: #fff;
+      background: cadetblue; }
+    .section-card .mdl-card .mdl-card__title-detail {
+      height: 112px; }
+    .section-card .mdl-card .mdl-card__title-text-detail {
+      font-size: 32px; }
+    .section-card .mdl-card .mdl-card__supporting-text {
+      color: inherit; }
+      .section-card .mdl-card .mdl-card__supporting-text span {
+        color: #99a9bf; }
+
+.mdl-list-height--auto {
+  height: auto !important; }
+
+.mdl-textfield {
+  width: 100%; }
+
+.c-datepicker.c-datepicker--open {
+  top: 55%;
+  z-index: 999; }
+
+.c-datepicker__header {
+  line-height: normal; }

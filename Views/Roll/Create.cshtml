@@ -1,0 +1,111 @@
+﻿@model Roll
+
+@section Link{
+  <environment include="Development">
+    <link rel="stylesheet" href="~/lib/material-datetime-picker/material-datetime-picker.min.css">
+  </environment>
+  <environment exclude="Development">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-datetime-picker/2.4.0/material-datetime-picker.min.css"
+          asp-fallback-href="~/lib/material-datetime-picker/material-datetime-picker.min.css">
+  </environment>
+}
+
+@section Tabbar {
+  <a class="mdl-layout__tab is-active">你喜欢摔♂跤？Huh？</a>
+  <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent"
+          onclick="location.href='@Url.Action("Index", "Roll")'">
+    <i class="material-icons" role="presentation">arrow_back</i>
+    <span class="visuallyhidden">返回</span>
+  </button>
+}
+
+<section class="section-card section--center">
+  <div class="mdl-card mdl-cell--8-col mdl-shadow--2dp">
+    <div class="mdl-card__title mdl-card__title-detail">
+      <h2 class="mdl-card__title-text mdl-card__title-text-detail">留下你的挑♂战</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <form class="form-roll" asp-controller="Roll" asp-action="Create" method="post">
+        <div class="mdl-grid">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="text" name="name" required>
+            <label class="mdl-textfield__label" for="name">Roll名称:</label>
+          </div>
+        </div>
+        <div class="mdl-grid">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <textarea class="mdl-textfield__input" type="text" name="description" required></textarea>
+            <label class="mdl-textfield__label" for="description">roll描述:</label>
+          </div>
+        </div>
+        <div class="mdl-grid">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="text" name="creator" required>
+            <label class="mdl-textfield__label" for="creator">Roll创建者:</label>
+          </div>
+        </div>
+        <div class="mdl-grid">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="number" name="winnernumber" required>
+            <label class="mdl-textfield__label" for="winnernumber">抽几个人:</label>
+          </div>
+        </div>
+        <div class="mdl-grid">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="text" id="endtime" name="endtime" required formnovalidate>
+            <label class="mdl-textfield__label" for="endtime">结束时间:</label>
+          </div>
+        </div>
+        <div class="mdl-grid">
+          <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+            提♂交
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+@section Script {
+  <environment include="Development">
+    <script src="~/lib/polyfill/polyfill.js"></script>
+    <script src="~/lib/moment.js/moment.js"></script>
+    <script src="~/lib/rome/rome.standalone.js"></script>
+    <script src="~/lib/material-datetime-picker/material-datetime-picker.min.js"></script>
+  </environment>
+  <environment exclude="Development">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.0.0/polyfill.min.js"
+            integrity="sha384-xdYv/bK/GurTImj8qnLxV6AgiEPQzHU4hufpOLFf5P/7Jh4O4GiGJKTJwtL9UhC0"
+            crossorigin="anonymous"
+            asp-fallback-src="~/lib/polyfill/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"
+            integrity="sha384-sIzeKWIAHvT0Vm8QbfLCqZwBG0WMCkWVAOYd/330YSNeeQ1Y57N3T9lQz5Ry/EHH"
+            crossorigin="anonymous"
+            asp-fallback-src="~/lib/moment.js/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rome/2.1.22/rome.standalone.min.js"
+            integrity="sha384-3N4JQD+IWfrN7jkXA9bQPLRinxl8s4RLK0sY/ErQhgbK8VNti/Ge4joTAumzEwEs"
+            crossorigin="anonymous"
+            asp-fallback-src="~/lib/rome/rome.standalone.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/material-datetime-picker/2.4.0/material-datetime-picker.min.js"
+            integrity="sha384-lDLNXbxgflpVXmWB+uclGGj1vyQmZ0YRFtKK+btEOaiuE6zZzCMFjIMELH2lJbMg"
+            crossorigin="anonymous"
+            asp-fallback-src="~/lib/material-datetime-picker/material-datetime-picker.min.js"></script>
+  </environment>
+
+  <script type="text/javascript">
+    const picker = new MaterialDatetimePicker({
+      container: document.querySelector('.section-card'),
+    })
+      .on('submit', (val) => {
+        var endtime = document.getElementById("endtime");
+        endtime.value = val.format('YYYY-MM-DD HH:mm');
+        endtime.parentElement.classList.remove('is-invalid');
+        endtime.parentElement.classList.add('is-dirty');
+      });
+
+    document.getElementById("endtime")
+      .addEventListener('click', function () {
+        picker.open();
+      }, false);
+  </script>
+}
