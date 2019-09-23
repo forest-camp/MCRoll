@@ -60,10 +60,13 @@ namespace MCRoll
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public async void Configure(IApplicationBuilder app, IHostEnvironment env, ILogger<Startup> logger)
         {
-            logger.LogInformation($"Inf:Environment:{env.EnvironmentName}");
-            logger.LogDebug($"Debug:Environment:{env.EnvironmentName}");
-            logger.LogWarning($"Warn:Environment:{env.EnvironmentName}");
-            logger.LogError($"Error:Environment:{env.EnvironmentName}");
+            if (env.IsDevelopment())
+            {
+                logger.LogInformation($"Inf:Environment:{env.EnvironmentName}");
+                logger.LogDebug($"Debug:Environment:{env.EnvironmentName}");
+                logger.LogWarning($"Warn:Environment:{env.EnvironmentName}");
+                logger.LogError($"Error:Environment:{env.EnvironmentName}");
+            }
 
             if (env.IsDevelopment())
             {
@@ -91,7 +94,10 @@ namespace MCRoll
                     pattern: "{controller=Home}/{action=Index}");
             });
 
-            await DbInitializer.Initialize(app.ApplicationServices);
+            if (env.IsDevelopment())
+            {
+                await DbInitializer.Initialize(app.ApplicationServices);
+            }
         }
     }
 }
