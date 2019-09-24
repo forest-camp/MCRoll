@@ -94,10 +94,7 @@ namespace MCRoll
                     pattern: "{controller=Home}/{action=Index}");
             });
 
-            if (env.IsDevelopment())
-            {
-                await DbInitializer.Initialize(app.ApplicationServices);
-            }
+            await DbInitializer.Initialize(app.ApplicationServices, env.IsDevelopment());
         }
     }
 }

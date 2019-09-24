@@ -11,19 +11,22 @@ namespace MCRoll.Data
 {
     public class DbInitializer
     {
-        public async static Task Initialize(IServiceProvider serviceProvider)
+        public async static Task Initialize(IServiceProvider serviceProvider, Boolean isDev)
         {
             using (var context = new MCRollDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<MCRollDbContext>>()))
             {
                 if (await context.Database.EnsureCreatedAsync())
                 {
-                    if (context.Rolls.Any())
+                    if (isDev)
                     {
-                        return;
-                    }
+                        if (context.Rolls.Any())
+                        {
+                            return;
+                        }
 
-                    await InsertData(context);
+                        await InsertData(context);
+                    }
                 }
             }
         }
