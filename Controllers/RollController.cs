@@ -2,20 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using MCRoll.Data;
 using MCRoll.Models;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace MCRoll.Controllers
 {
     public class RollController : Controller
     {
         private readonly MCRollDbContext _context;
+        private IConfiguration _configuration { get; }
+        private ILogger _logger;
 
-        public RollController(MCRollDbContext context)
+        public RollController(MCRollDbContext context, IConfiguration configuration, ILogger<RollController> logger)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -97,7 +104,17 @@ namespace MCRoll.Controllers
             roll.Winners = winners;
             await _context.SaveChangesAsync();
 
-            await SendMailAsync(winners, roll);
+            try
+            {
+                var mailEnable = _configuration.GetValue<Boolean>("MAIL_ENABLE");
+                if (mailEnable)
+                    await SendMailAsync(winners, roll);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Send Mail Error");
+            }
 
             return RedirectToAction(nameof(Detail), new { id });
         }
@@ -137,36 +154,48 @@ namespace MCRoll.Controllers
         private List<Winner> GetWinners(List<Participant> participants, Int32 nums)
         {
             List<Winner> winner = new List<Winner>(nums);
-            Random random = new Random(Guid.NewGuid().GetHashCode());
 
-            for (var i = 0; i < nums; i++)
+            if (nums >= participants.Count)
             {
-                winner.Add(Winner.FromParticipant(participants[i]));
+                participants.ForEach(p => winner.Add(Winner.FromParticipant(p)));
             }
-
-            for (var i = nums; i < participants.Count; i++)
+            else
             {
-                Int32 r = random.Next(i + 1);
-                if (r < nums)
+                Random random = new Random(Guid.NewGuid().GetHashCode());
+
+                for (var i = 0; i < nums; i++)
                 {
-                    winner[r] = Winner.FromParticipant(participants[i]);
+                    winner.Add(Winner.FromParticipant(participants[i]));
+                }
+
+                for (var i = nums; i < participants.Count; i++)
+                {
+                    Int32 r = random.Next(i + 1);
+                    if (r < nums)
+                    {
+                        winner[r] = Winner.FromParticipant(participants[i]);
+                    }
                 }
             }
-
             return winner;
         }
 
         private async Task SendMailAsync(List<Winner> winners, Roll roll)
         {
+            var mailSender = _configuration.GetValue<String>("MAIL_SENDER");
+            var mailPassword = _configuration.GetValue<String>("MAIL_PASSWORD");
+            var mailHost = _configuration.GetValue<String>("MAIL_HOST");
+            var mailPort = _configuration.GetValue<Int32>("MAIL_PORT");
+
             Utils.MailKit mailkit = new Utils.MailKit()
             {
-                Sender = "test@outlook.com",
+                Sender = mailSender,
                 Subject = "你中奖了，出来挨打",
                 Text = $"你在 \"{roll.Creator}\" 创建的 roll \"{roll.Name}\" 中奖了，出来挨打",
-                Username = "test@outlook.com",
-                Password = "test..",
-                Host = "smtp-mail.outlook.com",
-                Port = 587,
+                Username = mailSender,
+                Password = mailPassword,
+                Host = mailHost,
+                Port = mailPort,
                 ImagePath = "wwwroot/images/aida.jpg",
             };
             foreach (var winner in winners)
@@ -176,6 +205,5 @@ namespace MCRoll.Controllers
             mailkit.Init();
             await mailkit.SendAsync();
         }
-
     }
 }
