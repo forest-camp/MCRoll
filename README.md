@@ -1,8 +1,8 @@
 # MCRoll
 Midwood Camp Roll  
 [![Docker](https://img.shields.io/badge/docker-latest-blue?logo=docker)](https://hub.docker.com/r/illyathehath/mcroll)
-[![Docker Builds](https://img.shields.io/docker/cloud/build/illyathehath/mcroll)](https://github.com/midwoodcamp/MCRoll/blob/master/LICENSE)
-[![License](https://img.shields.io/github/license/midwoodcamp/MCRoll)](https://hub.docker.com/r/illyathehath/mcroll/builds)
+[![Docker Builds](https://img.shields.io/docker/cloud/build/illyathehath/mcroll)](https://hub.docker.com/r/illyathehath/mcroll/builds)
+[![License](https://img.shields.io/github/license/midwoodcamp/MCRoll)](https://github.com/midwoodcamp/MCRoll/blob/master/LICENSE)
 
 ### Requirement
 - mysql 8.0+, character set utf8mb4
@@ -10,15 +10,15 @@ Midwood Camp Roll
 ### Docker Environment Variables
 
 ```
-DB_HOST         Êı¾İ¿âµØÖ·
-DB_PORT         Êı¾İ¿â¶Ë¿Ú
-DB_USER         Êı¾İ¿âÓÃ»§Ãû
-DB_PASSWORD     Êı¾İ¿âÃÜÂë
-DB_NAME         Êı¾İ¿âÃû
+DB_HOST         æ•°æ®åº“åœ°å€
+DB_PORT         æ•°æ®åº“ç«¯å£
+DB_USER         æ•°æ®åº“ç”¨æˆ·å
+DB_PASSWORD     æ•°æ®åº“å¯†ç 
+DB_NAME         æ•°æ®åº“å
 
-MAIL_ENABLE     ÊÇ·ñÆôÓÃÓÊ¼şÍ¨Öª(SMTP)
-MAIL_SENDER     ·¢¼şÈËSMTPµÇÂ¼Ãû
-MAIL_PASSWORD   ·¢¼şÈËSMTPµÇÂ¼ÃÜÂë
-MAIL_HOST       SMTPµØÖ·
-MAIL_PORT       SMTP¶Ë¿Ú
+MAIL_ENABLE     æ˜¯å¦å¯ç”¨é‚®ä»¶é€šçŸ¥(SMTP)
+MAIL_SENDER     å‘ä»¶äººSMTPç™»å½•å
+MAIL_PASSWORD   å‘ä»¶äººSMTPç™»å½•å¯†ç 
+MAIL_HOST       SMTPåœ°å€
+MAIL_PORT       SMTPç«¯å£
 ```
