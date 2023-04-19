@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using MCRoll.Data;
+﻿using MCRoll.Data;
 using MCRoll.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace MCRoll.Controllers
 {
@@ -23,6 +16,7 @@ namespace MCRoll.Controllers
         {
             _context = context;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -109,7 +103,6 @@ namespace MCRoll.Controllers
                 var mailEnable = _configuration.GetValue<Boolean>("MAIL_ENABLE");
                 if (mailEnable)
                     await SendMailAsync(winners, roll);
-
             }
             catch (Exception ex)
             {
