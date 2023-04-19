@@ -1,37 +1,48 @@
-﻿using System;
+﻿using MCRoll.Data;
 
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
-namespace MCRoll
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
+    .AddEnvironmentVariables();
+
+// configure database
+var dbHost = builder.Configuration.GetValue<String>("DB_HOST");
+var dbPort = builder.Configuration.GetValue<String>("DB_PORT");
+var dbUser = builder.Configuration.GetValue<String>("DB_USER");
+var dbPassword = builder.Configuration.GetValue<String>("DB_PASSWORD");
+var dbName = builder.Configuration.GetValue<String>("DB_NAME");
+String connectingString = $"Server={dbHost};Port={dbPort};Database={dbName};User={dbUser};Password={dbPassword};";
+builder.Services.AddDbContextPool<MCRollDbContext>(options =>
+    options.UseMySql(connectingString, ServerVersion.AutoDetect(connectingString)));
+
+// Add services to the container.
+//builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(String[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder(String[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((hostingContext, config) =>
-                {
-                    var env = hostingContext.HostingEnvironment;
-                    config.AddJsonFile("appsettings.json")
-                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
-                        .AddEnvironmentVariables();
-                })
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders()
-                        .AddDebug()
-                        .AddConsole();
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+app.MapRazorPages();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}");
+});
+
+app.Run();

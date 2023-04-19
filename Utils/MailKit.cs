@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Security;
+﻿using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
+
 using MailKit.Net.Smtp;
 using MailKit.Security;
+
 using MimeKit;
 using MimeKit.Utils;
 
@@ -73,12 +72,12 @@ namespace MCRoll.Utils
         /// </summary>
         public void Init()
         {
-            this.message.From.Add(new MailboxAddress(Sender));
+            this.message.From.Add(new MailboxAddress(Sender, Sender));
             if (this.Receivers != null && this.Receivers.Count != 0)
             {
                 Receivers.ForEach(r =>
                 {
-                    this.message.To.Add(new MailboxAddress(r));
+                    this.message.To.Add(new MailboxAddress(r, r));
                 });
             }
             this.message.Subject = Subject;
@@ -92,7 +91,6 @@ namespace MCRoll.Utils
             }
             message.Body = builder.ToMessageBody();
         }
-
 
         /// <summary>
         /// 发送邮件
@@ -116,7 +114,6 @@ namespace MCRoll.Utils
                 Console.WriteLine("########## Send Error ##########");
                 return false;
             }
-
         }
 
         /// <summary>
@@ -141,7 +138,6 @@ namespace MCRoll.Utils
                 Console.WriteLine("########## SendAsync Error ##########");
                 return false;
             }
-
         }
 
         private Boolean ServerCertificateValidationCallback(Object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
